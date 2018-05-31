@@ -109,7 +109,7 @@ describe('AiBot', function () {
 
             await aibot.handleRequest({session: {application: {app_id: "12345"}}, query: 'hello', request: {type: 1}});
 
-            textHandled.should.be.exactly(false);
+            textHandled.should.be.exactly(true);
         });
     });
 });

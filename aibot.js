@@ -53,15 +53,10 @@ class AiBot {
         if (await this.doHandleRequestBy(ctx, this.textListeners[ctx.req.query], () => {
             return this.textListeners.hasOwnProperty(ctx.req.query);
         })) return;
-        if (await this.doHandleRequestBy(ctx, this.regExpListeners[ctx.req.query], () => {
-            return this.textListeners.hasOwnProperty(ctx.req.query);
-        })) return;
         if (await this.doHandleRequestBy(ctx, this.getRegExpHandler(ctx.req.query))) return;
     }
 
     async doHandleRequestBy(ctx, handler, trigger) {
-        // console.log(typeof trigger)
-        // console.log(trigger)
         if (!handler) return false;
         if ((trigger != undefined)&&(trigger != null)) {
             if ((typeof trigger === 'boolean') && !trigger) return false;
