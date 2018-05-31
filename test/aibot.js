@@ -111,5 +111,18 @@ describe('AiBot', function () {
 
             textHandled.should.be.exactly(true);
         });
+        it('should invoke regex handler for matched query text request', async function () {
+            const aibot = new AiBot('12345');
+
+            let regexHandled = false;
+
+            aibot.hears(/\w+/, function(ctx) {
+                regexHandled = true;
+            });
+
+            await aibot.handleRequest({session: {application: {app_id: "12345"}}, query: 'hello', request: {type: 1}});
+
+            regexHandled.should.be.exactly(true);
+        });
     });
 });
