@@ -38,7 +38,10 @@ describe('AiBot', function () {
                 handlerEntered=true;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "12345"}}, request: {type: 0}});
+            await aibot.handleRequest({ session: { 
+                                          application: { app_id: "12345"}, user: {user_id: "456"}}
+                                        , request: {type: 0}}
+                                     );
 
             handlerEntered.should.be.exactly(true);
         });
@@ -51,7 +54,10 @@ describe('AiBot', function () {
                 handlerEntered=true;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "1234"}}, request: {type: 0}});
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "1234"}, user: {user_id: "456"}}
+                                      , request: {type: 0}}
+                                      );
 
             handlerEntered.should.be.exactly(false);
         });
@@ -68,7 +74,10 @@ describe('AiBot', function () {
                 eventType = 2;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "12345"}}, request: {type: 2}});
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "12345"}, user: {user_id: "456"}}
+                                      , request: {type: 2}}
+                                      );
 
             eventType.should.be.exactly(2);
         });
@@ -81,7 +90,10 @@ describe('AiBot', function () {
                 intentHandled = true;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "12345"}}, request: {type: 1, slot_info: {intent_name : 'query-name'}}});
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "12345"}, user: {user_id: "456"}}
+                                      , request: {type: 1, slot_info: {intent_name : 'query-name'}}}
+                                      );
 
             intentHandled.should.be.exactly(true);
         });
@@ -94,7 +106,10 @@ describe('AiBot', function () {
                 intentHandled = true;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "12345"}}, request: {type: 1, slot_info: {intent_name : 'query-sex'}}});
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "12345"}, user: {user_id: "456"}}
+                                      , request: {type: 1, slot_info: {intent_name : 'query-sex'}}}
+                                      );
 
             intentHandled.should.be.exactly(false);
         });
@@ -107,7 +122,11 @@ describe('AiBot', function () {
                 textHandled = true;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "12345"}}, query: 'hello', request: {type: 1}});
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "12345"}, user: {user_id: "456"}}
+                                      , query: 'hello'
+                                      , request: {type: 1}}
+                                      );
 
             textHandled.should.be.exactly(true);
         });
@@ -120,7 +139,11 @@ describe('AiBot', function () {
                 regexHandled = true;
             });
 
-            await aibot.handleRequest({session: {application: {app_id: "12345"}}, query: 'hello', request: {type: 1}});
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "12345"}, user: {user_id: "456"}}
+                                      , query: 'hello'
+                                      , request: {type: 1}}
+                                      );
 
             regexHandled.should.be.exactly(true);
         });

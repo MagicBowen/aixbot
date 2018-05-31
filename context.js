@@ -3,6 +3,10 @@ class Context {
         this.req = req;
         this.res = {};
     }
+
+    reply(text) {
+
+    }
 }
 
 module.exports = Context;

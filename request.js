@@ -3,6 +3,7 @@ class Request {
         this.body = req;
         this.appId = req.session.application.app_id;
         this.query = req.query;
+        this.user = req.session.user;
         if (req.request.slot_info) {
             this.intent = req.request.slot_info.intent_name;
         }
