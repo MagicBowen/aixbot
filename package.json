@@ -1,0 +1,24 @@
+{
+    "name": "xiao-ai",
+    "version": "0.0.1",
+    "description": "SDK for XiaoAi Public Platform",
+    "author": "bowen <e.wangbo@gmail.com>",
+    "license": "Apache-2.0",
+    "main": "aibot.js",
+    "scripts": {
+        "test": "mocha"
+    },
+    "engines": {
+        "node": ">=8.11.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/magicbowen/xiao-ai.git"
+    },
+    "dependencies": {
+        "log4js": "^2.8.0"
+    },
+    "devDependencies": {
+        "mocha": "^5.2.0"
+    }
+}
