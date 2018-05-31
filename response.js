@@ -3,7 +3,7 @@ class Response {
         this.body = {
             version  : "1.0",
             response : {
-                open_mic = false
+                open_mic : false
             },
             is_session_end : false
         }
