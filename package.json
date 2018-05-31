@@ -19,6 +19,7 @@
         "log4js": "^2.8.0"
     },
     "devDependencies": {
-        "mocha": "^5.2.0"
+        "mocha": "^5.2.0",
+        "should": "^13.2.1"
     }
 }
