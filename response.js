@@ -78,4 +78,10 @@ class Response {
         this.body.response['register_events'] = [{event_name : 'mediaplayer.playbacknearlyfinished'}];
         return this;
     }
+
+    getMessage() {
+        return JSON.stringify(this.body);
+    }
 }
+
+module.exports = Response;

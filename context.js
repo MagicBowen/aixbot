@@ -1,11 +1,9 @@
+const Response = require('./response')
+
 class Context {
     constructor(req) {
         this.req = req;
-        this.res = {};
-    }
-
-    reply(text) {
-
+        this.res = new Response();
     }
 }
 
