@@ -1,9 +1,11 @@
+const compose = require('koa-compose');
 const Context = require('./context')
 const Request = require('./request')
 
 class AiBot {
     constructor(appId) {
         this.appId = appId;
+        this.middlewares = [];
         this.eventListeners = {
             enterSkill    : null,
             quitSkill     : null,
@@ -17,6 +19,55 @@ class AiBot {
         this.textListeners   = {};
         this.regExpListeners = {};
         this.errorListener   = null;
+    }
+
+    run(port, host, tlsOptions) {
+        this.server = tlsOptions ? 
+                      require('https').createServer(tlsOptions, this.callback()) 
+                      : require('http').createServer(this.callback());
+        this.server.listen(port, host, () => { console.log('AiBot listening on port: %s', port)});
+    }
+
+    use(middleware) {
+        if (typeof middleware !== 'function') throw new TypeError('middleware must be a function!');
+        this.middlewares.push(middleware);
+        return this;
+    }
+
+    callback() {
+        const fn = compose(this.middlewares);
+    
+        const handleRequest = (req, res) => {
+            if (req.getHeader('Content-Type') !== 'application/json') {
+                const body = JSON.stringify({reason : 'incorrect content type, wish json!'});
+                response.writeHead(404, {
+                    'Content-Length': Buffer.byteLength(body),
+                    'Content-Type': 'application/json' });
+                res.end(body);
+                return;
+            }
+            response = await this.handleHttpRequest(req, fn);
+            
+        };
+    
+        return handleRequest;
+    }
+
+    handler() {
+        this.middlewares.push(async function(ctx, next) {
+            try {
+                reply = await this.handleRequest(ctx.request.body);
+                ctx.response.body = reply;
+                ctx.response.status = 200;
+            } catch(err) {
+                ctx.response.status = 404;
+            }
+        });
+        const fn = compose(this.middlewares);
+        return (ctx, next) => {
+            await fn(ctx, next);
+            next();
+        }
     }
 
     async handleRequest(request) {
@@ -122,7 +173,7 @@ class AiBot {
             throw new Error(`Event handler must not be empty`);
         }
         if (typeof handler != 'function') {
-            throw new Error(`Event handler must be a function`);
+            throw new TypeError(`Event handler must be a function`);
         }        
     }
 
