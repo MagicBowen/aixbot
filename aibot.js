@@ -28,7 +28,7 @@ class AiBot {
         let ctx = new Context(req);
         try {
             await this.doHandleRequest(ctx);
-            return ctx.res;
+            return ctx.body;
         } catch(err) {
             if (this.errorListener) {
                 this.errorListener(ctx);
@@ -40,20 +40,20 @@ class AiBot {
     }
 
     async doHandleRequest(ctx) {
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.enterSkill, ctx.req.isEnterSkill)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.quitSkill, ctx.req.isQuitSkill)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.noResponse, ctx.req.isNoResponse)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.recordFinish, ctx.req.isRecordFinish)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.recordFail, ctx.req.isRecordFail)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.playFinishing, ctx.req.isPlayFinishing)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.inSkill, ctx.req.isInSkill)) return;
-        if (await this.doHandleRequestBy(ctx, this.intentListeners[ctx.req.intent], () => {
-            return this.intentListeners.hasOwnProperty(ctx.req.intent);
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.enterSkill, ctx.request.isEnterSkill)) return;
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.quitSkill, ctx.request.isQuitSkill)) return;
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.noResponse, ctx.request.isNoResponse)) return;
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.recordFinish, ctx.request.isRecordFinish)) return;
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.recordFail, ctx.request.isRecordFail)) return;
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.playFinishing, ctx.request.isPlayFinishing)) return;
+        if (await this.doHandleRequestBy(ctx, this.eventListeners.inSkill, ctx.request.isInSkill)) return;
+        if (await this.doHandleRequestBy(ctx, this.intentListeners[ctx.request.intent], () => {
+            return this.intentListeners.hasOwnProperty(ctx.request.intent);
         })) return;
-        if (await this.doHandleRequestBy(ctx, this.textListeners[ctx.req.query], () => {
-            return this.textListeners.hasOwnProperty(ctx.req.query);
+        if (await this.doHandleRequestBy(ctx, this.textListeners[ctx.request.query], () => {
+            return this.textListeners.hasOwnProperty(ctx.request.query);
         })) return;
-        if (await this.doHandleRequestBy(ctx, this.getRegExpHandler(ctx.req.query))) return;
+        if (await this.doHandleRequestBy(ctx, this.getRegExpHandler(ctx.request.query))) return;
     }
 
     async doHandleRequestBy(ctx, handler, trigger) {

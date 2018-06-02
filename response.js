@@ -79,7 +79,7 @@ class Response {
         return this;
     }
 
-    getMessage() {
+    getBody() {
         return this.body;
     }
 }
