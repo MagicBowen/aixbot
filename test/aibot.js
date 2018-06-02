@@ -147,5 +147,22 @@ describe('AiBot', function () {
 
             regexHandled.should.be.exactly(true);
         });
+        it('should not invoke regex handler for unmatched query text request', async function () {
+            const aibot = new AiBot('12345');
+
+            let regexHandled = false;
+
+            aibot.hears(/\d+/, function(ctx) {
+                regexHandled = true;
+            });
+
+            await aibot.handleRequest({ session: {
+                                          application: {app_id: "12345"}, user: {user_id: "456"}}
+                                      , query: 'hello'
+                                      , request: {type: 1}}
+                                      );
+
+            regexHandled.should.be.exactly(false);
+        });
     });
 });
