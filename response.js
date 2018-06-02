@@ -80,7 +80,7 @@ class Response {
     }
 
     getMessage() {
-        return JSON.stringify(this.body);
+        return this.body;
     }
 }
 
