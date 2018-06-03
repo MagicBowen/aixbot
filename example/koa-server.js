@@ -1,25 +1,25 @@
 //////////////////////////////////////////////////
-const AiBot = require('../aibot');
+const AixBot = require('../aixbot');
 
-const aibot = new AiBot('123');
+const aixbot = new AixBot('123');
 
 // define event listener
-aibot.onEvent('enterSkill', (ctx) => {
+aixbot.onEvent('enterSkill', (ctx) => {
     ctx.speak('hi').openMic();
 });
 
 // define text listener
-aibot.hears('who are you', (ctx) => {
-    ctx.speak('I am aibot').openMic();
+aixbot.hears('who are you', (ctx) => {
+    ctx.speak('I am aixbot').openMic();
 });
 
 // define regex listener
-aibot.hears(/\w+/, (ctx) => {
+aixbot.hears(/\w+/, (ctx) => {
     ctx.speak(ctx.request.query).openMic();
 });
 
 // close session
-aibot.onEvent('quitSkill', (ctx) => {
+aixbot.onEvent('quitSkill', (ctx) => {
     ctx.speak('bye').closeSession();
 });
 
@@ -46,8 +46,8 @@ router.get('/', (ctx, next) => {
     ctx.response.status = 200;    
 });
 
-// register aibot handler to koa router
-router.post('/aibot', aibot.httpHandler());
+// register aixbot handler to koa router
+router.post('/aixbot', aixbot.httpHandler());
   
 app.use(router.routes());
 

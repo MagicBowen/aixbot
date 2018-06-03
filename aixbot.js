@@ -2,7 +2,7 @@ const compose = require('koa-compose');
 const Context = require('./context')
 const Request = require('./request')
 
-class AiBot {
+class AixBot {
     constructor(appId) {
         this.appId = appId;
         this.middlewares = [];
@@ -205,4 +205,4 @@ class AiBot {
     }    
 }
 
-module.exports = AiBot;
+module.exports = AixBot;

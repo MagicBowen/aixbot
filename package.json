@@ -1,11 +1,11 @@
 {
-    "name": "aibot",
+    "name": "aixbot",
     "version": "1.0.0",
     "description": "Robot SDK for XiaoAi Public Platform",
     "author": "magicbowen <e.wangbo@gmail.com>",
     "license": "MIT",
-    "homepage": "https://github.com/MagicBowen/aibot#readme",
-    "main": "aibot.js",
+    "homepage": "https://github.com/MagicBowen/aixbot#readme",
+    "main": "aixbot.js",
     "scripts": {
         "test": "mocha"
     },
@@ -14,10 +14,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/magicbowen/aibot.git"
+        "url": "https://github.com/magicbowen/aixbot.git"
     },
     "bugs": {
-        "url": "https://github.com/MagicBowen/aibot/issues"
+        "url": "https://github.com/MagicBowen/aixbot/issues"
     },    
     "dependencies": {
         "delegates": "^1.0.0",
@@ -29,7 +29,7 @@
         "should": "^13.2.1"
     },
     "keywords": [
-        "aibot",
+        "aixbot",
         "xiaoai",
         "xiaoai public platform api",
         "bot",
