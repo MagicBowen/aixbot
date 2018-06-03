@@ -60,7 +60,7 @@ class AiBot {
                     let resBody = await that.handleRequest(JSON.parse(reqBody), aibotHandlers);
                     responseJson(res, resBody);
                 } catch (err) {
-                    responseJson(res, {cause : 'Inner middleware error occurred!'}, 404);
+                    responseJson(res, {cause : `${err}`}, 404);
                 }
             });
         };
@@ -76,7 +76,7 @@ class AiBot {
                 ctx.response.status = 200;
             } catch(err) {
                 ctx.response.status = 404;
-                ctx.response.body = {cause : 'Inner middleware error occurred!'};
+                ctx.response.body = {cause : `${err}`};
             }
             next();
         }
@@ -95,8 +95,7 @@ class AiBot {
         return async function(ctx) {
             try {
                 if (ctx.request.appId != that.appId) {
-                    console.log(`AppId(${ctx.request.appId}) in request does not match the aibot(${that.appId})`);
-                    return;
+                    throw(new Error(`appId(${ctx.request.appId}) does not match the aibot(${that.appId})`));
                 }
                 await that.handle(ctx);
                 return ctx.body;
