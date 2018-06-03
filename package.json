@@ -2,7 +2,7 @@
     "name": "aibot",
     "version": "1.0.0",
     "description": "Robot SDK for XiaoAi Public Platform",
-    "author": "Bowen <e.wangbo@gmail.com>",
+    "author": "magicbowen <e.wangbo@gmail.com>",
     "license": "MIT",
     "homepage": "https://github.com/MagicBowen/aibot#readme",
     "main": "aibot.js",
