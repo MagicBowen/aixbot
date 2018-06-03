@@ -5,7 +5,6 @@
 ```bash
 npm install aibot
 ```
-
 ## usage
 
 ### independent
@@ -97,13 +96,3 @@ app.use(router.routes());
 app.listen(8080);
 console.log('KOA server is runing...');
 ```
-
-## API
-
-### AiBot
-
-### Context
-
-### Request
-
-### Response
