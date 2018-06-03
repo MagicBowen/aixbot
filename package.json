@@ -2,8 +2,9 @@
     "name": "aibot",
     "version": "1.0.0",
     "description": "Robot SDK for XiaoAi Public Platform",
-    "author": "bowen <e.wangbo@gmail.com>",
-    "license": "Apache-2.0",
+    "author": "Bowen <e.wangbo@gmail.com>",
+    "license": "MIT",
+    "homepage": "https://github.com/MagicBowen/aibot#readme",
     "main": "aibot.js",
     "scripts": {
         "test": "mocha"
@@ -15,6 +16,9 @@
         "type": "git",
         "url": "https://github.com/magicbowen/aibot.git"
     },
+    "bugs": {
+        "url": "https://github.com/MagicBowen/aibot/issues"
+    },    
     "dependencies": {
         "delegates": "^1.0.0",
         "koa-compose": "^4.1.0"
@@ -23,5 +27,13 @@
         "mocha": "^5.2.0",
         "deep-equal": "^1.0.1",
         "should": "^13.2.1"
-    }
+    },
+    "keywords": [
+        "aibot",
+        "xiaoai",
+        "xiaoai public platform api",
+        "bot",
+        "botapi",
+        "bot framework"
+      ]    
 }
