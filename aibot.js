@@ -83,7 +83,6 @@ class AiBot {
     }
 
     async handleRequest(request, handler) {
-        // console.log(JSON.stringify(request))
         if (!handler) handler = this.getFinalHandler();
         let req = new Request(request);
         let ctx = new Context(req);
