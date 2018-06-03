@@ -1,7 +1,7 @@
 {
-    "name": "xiao-ai",
-    "version": "0.0.1",
-    "description": "SDK for XiaoAi Public Platform",
+    "name": "aibot",
+    "version": "1.0.0",
+    "description": "Robot SDK for XiaoAi Public Platform",
     "author": "bowen <e.wangbo@gmail.com>",
     "license": "Apache-2.0",
     "main": "aibot.js",
@@ -13,7 +13,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/magicbowen/xiao-ai.git"
+        "url": "https://github.com/magicbowen/aibot.git"
     },
     "dependencies": {
         "delegates": "^1.0.0",
