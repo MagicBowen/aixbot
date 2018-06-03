@@ -52,8 +52,8 @@ class AiBot {
                 return;
             }
             let reqBody = "";
-            req.on('data', function() {
-                reqBody += req.read();
+            req.on('data', function(chunk) {
+                reqBody += chunk;
             });
             req.on('end', async function() {
                 try {
@@ -83,6 +83,7 @@ class AiBot {
     }
 
     async handleRequest(request, handler) {
+        // console.log(JSON.stringify(request))
         if (!handler) handler = this.getFinalHandler();
         let req = new Request(request);
         let ctx = new Context(req);

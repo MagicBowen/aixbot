@@ -1,6 +1,5 @@
 const AiBot = require('../aibot');
 
-
 const aibot = new AiBot('123');
 
 aibot.use(async (ctx, next) => {
