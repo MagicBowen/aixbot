@@ -46,17 +46,23 @@ class AiBot {
             res.end(body);
         }
         let that = this;
-        return async (req, res) => {
-            if (req.getHeader('Content-Type') !== 'application/json') {
+        return (req, res) => {
+            if (req.headers['content-type'] !== 'application/json') {
                 responseJson(res, {cause : 'incorrect content type, wish json!'}, 404);
                 return;
             }
-            try {
-                let body = await that.handleRequest(req.body, aibotHandlers);
-                responseJson(res, body);
-            } catch (err) {
-                responseJson(res, {cause : 'Inner middleware error occurred!'}, 404);
-            }
+            let reqBody = "";
+            req.on('data', function() {
+                reqBody += req.read();
+            });
+            req.on('end', async function() {
+                try {
+                    let resBody = await that.handleRequest(JSON.parse(reqBody), aibotHandlers);
+                    responseJson(res, resBody);
+                } catch (err) {
+                    responseJson(res, {cause : 'Inner middleware error occurred!'}, 404);
+                }
+            });
         };
     }
 
