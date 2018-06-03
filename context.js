@@ -14,10 +14,6 @@ class Context {
     get response() {
         return this.res;
     }
-
-    get body() {
-        return this.res.getBody();
-    }
 }
 
 delegate(Context.prototype, 'res')
@@ -31,6 +27,7 @@ delegate(Context.prototype, 'res')
     .method('setSession')
     .method('record')
     .method('playMsgs')
-    .method('registerPlayFinishing');
+    .method('registerPlayFinishing')
+    .getter('body');
 
 module.exports = Context;

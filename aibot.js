@@ -35,79 +35,94 @@ class AiBot {
     }
 
     callback() {
-        const fn = compose(this.middlewares);
-    
-        const handleRequest = (req, res) => {
+        this.middlewares.push(this.getFinalHandler());
+        const aibotHandlers = compose(this.middlewares);
+
+        const responseJson = (res, data, statusCode = 200) => {
+            const body = JSON.stringify(data);
+            res.writeHead(statusCode, {
+                'Content-Length': Buffer.byteLength(body),
+                'Content-Type': 'application/json' });
+            res.end(body);
+        }
+        let that = this;
+        return async (req, res) => {
             if (req.getHeader('Content-Type') !== 'application/json') {
-                const body = JSON.stringify({reason : 'incorrect content type, wish json!'});
-                response.writeHead(404, {
-                    'Content-Length': Buffer.byteLength(body),
-                    'Content-Type': 'application/json' });
-                res.end(body);
+                responseJson(res, {cause : 'incorrect content type, wish json!'}, 404);
                 return;
             }
-            response = await this.handleHttpRequest(req, fn);
-            
+            try {
+                let body = await that.handleRequest(req.body, aibotHandlers);
+                responseJson(res, body);
+            } catch (err) {
+                responseJson(res, {cause : 'Inner middleware error occurred!'}, 404);
+            }
         };
-    
-        return handleRequest;
     }
 
-    handler() {
-        this.middlewares.push(async function(ctx, next) {
+    httpHandler() {
+        this.middlewares.push(this.getFinalHandler());
+        const aibotHandlers = compose(this.middlewares);
+        let that = this;
+        return async (ctx, next) => {
             try {
-                reply = await this.handleRequest(ctx.request.body);
-                ctx.response.body = reply;
+                ctx.response.body = await that.handleRequest(ctx.request.body, aibotHandlers);
                 ctx.response.status = 200;
             } catch(err) {
                 ctx.response.status = 404;
+                ctx.response.body = {cause : 'Inner middleware error occurred!'};
             }
-        });
-        const fn = compose(this.middlewares);
-        return (ctx, next) => {
-            await fn(ctx, next);
             next();
         }
     }
 
-    async handleRequest(request) {
+    async handleRequest(request, handler) {
+        if (!handler) handler = this.getFinalHandler();
         let req = new Request(request);
-        if (req.appId != this.appId) {
-            console.log(`Error: received unknown app-id(${req.appId}) request!`);
-            return;
-        }
         let ctx = new Context(req);
-        try {
-            await this.doHandleRequest(ctx);
-            return ctx.body;
-        } catch(err) {
-            if (this.errorListener) {
-                this.errorListener(ctx);
-            } else {
-                console.log('Error: handle request failed!');
-                throw err;
+        await handler(ctx);
+        return ctx.body;
+    }  
+    
+    getFinalHandler() {
+        let that = this;
+        return async function(ctx) {
+            try {
+                if (ctx.request.appId != that.appId) {
+                    console.log(`AppId(${ctx.request.appId}) in request does not match the aibot(${that.appId})`);
+                    return;
+                }
+                await that.handle(ctx);
+                return ctx.body;
+            } catch(err) {
+                if (that.errorListener) {
+                    that.errorListener(ctx);
+                } else {
+                    console.log('Unhandled error occurred!')
+                    throw err;
+                }
             }
         }
-    }
+    }    
 
-    async doHandleRequest(ctx) {
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.enterSkill, ctx.request.isEnterSkill)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.quitSkill, ctx.request.isQuitSkill)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.noResponse, ctx.request.isNoResponse)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.recordFinish, ctx.request.isRecordFinish)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.recordFail, ctx.request.isRecordFail)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.playFinishing, ctx.request.isPlayFinishing)) return;
-        if (await this.doHandleRequestBy(ctx, this.eventListeners.inSkill, ctx.request.isInSkill)) return;
-        if (await this.doHandleRequestBy(ctx, this.intentListeners[ctx.request.intent], () => {
+    async handle(ctx) {
+        if (await this.doHandle(ctx, this.eventListeners.enterSkill, ctx.request.isEnterSkill)) return;
+        if (await this.doHandle(ctx, this.eventListeners.quitSkill, ctx.request.isQuitSkill)) return;
+        if (await this.doHandle(ctx, this.eventListeners.noResponse, ctx.request.isNoResponse)) return;
+        if (await this.doHandle(ctx, this.eventListeners.recordFinish, ctx.request.isRecordFinish)) return;
+        if (await this.doHandle(ctx, this.eventListeners.recordFail, ctx.request.isRecordFail)) return;
+        if (await this.doHandle(ctx, this.eventListeners.playFinishing, ctx.request.isPlayFinishing)) return;
+        if (await this.doHandle(ctx, this.eventListeners.inSkill, ctx.request.isInSkill)) return;
+        if (await this.doHandle(ctx, this.intentListeners[ctx.request.intent], () => {
             return this.intentListeners.hasOwnProperty(ctx.request.intent);
         })) return;
-        if (await this.doHandleRequestBy(ctx, this.textListeners[ctx.request.query], () => {
+        if (await this.doHandle(ctx, this.textListeners[ctx.request.query], () => {
             return this.textListeners.hasOwnProperty(ctx.request.query);
         })) return;
-        if (await this.doHandleRequestBy(ctx, this.getRegExpHandler(ctx.request.query))) return;
+        if (await this.doHandle(ctx, this.getRegExpHandler(ctx.request.query))) return;
     }
 
-    async doHandleRequestBy(ctx, handler, trigger) {
+    async doHandle(ctx, handler, trigger) {
         if (!handler) return false;
         if ((trigger != undefined)&&(trigger != null)) {
             if ((typeof trigger === 'boolean') && !trigger) return false;

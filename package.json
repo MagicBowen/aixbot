@@ -16,7 +16,8 @@
         "url": "https://github.com/magicbowen/xiao-ai.git"
     },
     "dependencies": {
-        "delegates": "^1.0.0"
+        "delegates": "^1.0.0",
+        "koa-compose": "^4.1.0"
     },
     "devDependencies": {
         "mocha": "^5.2.0",

@@ -17,7 +17,7 @@ describe('Response', function () {
                     }
                 }
             };
-            equal(response.getBody(), expect).should.be.exactly(true); 
+            equal(response.body, expect).should.be.exactly(true); 
         });
         it('should get the correct audio response', function () {
             let response = new Response().audio('http://www.xx.cn/audio.mp3');
@@ -38,7 +38,7 @@ describe('Response', function () {
             　　　　 ],
                 }
             };
-            equal(response.getBody(), expect).should.be.exactly(true); 
+            equal(response.body, expect).should.be.exactly(true); 
         });
         it('should get the correct action response', function () {
             let response = new Response().record();
@@ -50,7 +50,7 @@ describe('Response', function () {
                     action : "leave_msg"
                 }
             };
-            equal(response.getBody(), expect).should.be.exactly(true); 
+            equal(response.body, expect).should.be.exactly(true); 
         });        
         it('should get the correct open mic response', function () {
             let response = new Response().speak('hello').openMic();
@@ -65,7 +65,7 @@ describe('Response', function () {
                     }
                 }
             };
-            equal(response.getBody(), expect).should.be.exactly(true); 
+            equal(response.body, expect).should.be.exactly(true); 
         });        
         it('should get the correct close session response', function () {
             let response = new Response().speak('hello').closeSession();
@@ -80,11 +80,11 @@ describe('Response', function () {
                     }
                 }
             };
-            equal(response.getBody(), expect).should.be.exactly(true); 
+            equal(response.body, expect).should.be.exactly(true); 
         });      
         it('should get the correct playing record response', function () {
             let response = new Response().playMsgs(['123.m']).registerPlayFinishing();
-            let actual = response.getBody();
+            let actual = response.body;
             let expect = {
                 version: "1.0",
                 is_session_end  : false,
