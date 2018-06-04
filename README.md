@@ -1,5 +1,7 @@
 # Robot SDK for XiaoAi Public Platform
 
+SDK for [XiaoAi public platform](https://xiaoai.mi.com/skill/create/index).
+
 ## install
 
 ```bash
