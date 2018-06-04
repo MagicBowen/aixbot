@@ -117,7 +117,6 @@ class AixBot {
         if (await this.doHandle(ctx, this.eventListeners.recordFinish, ctx.request.isRecordFinish)) return;
         if (await this.doHandle(ctx, this.eventListeners.recordFail, ctx.request.isRecordFail)) return;
         if (await this.doHandle(ctx, this.eventListeners.playFinishing, ctx.request.isPlayFinishing)) return;
-        if (await this.doHandle(ctx, this.eventListeners.inSkill, ctx.request.isInSkill)) return;
         if (await this.doHandle(ctx, this.intentListeners[ctx.request.intent], () => {
             return this.intentListeners.hasOwnProperty(ctx.request.intent);
         })) return;
@@ -125,6 +124,7 @@ class AixBot {
             return this.textListeners.hasOwnProperty(ctx.request.query);
         })) return;
         if (await this.doHandle(ctx, this.getRegExpHandler(ctx.request.query))) return;
+        if (await this.doHandle(ctx, this.eventListeners.inSkill, ctx.request.isInSkill)) return;
     }
 
     async doHandle(ctx, handler, trigger) {
