@@ -1,6 +1,6 @@
 {
     "name": "aixbot",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Robot SDK for XiaoAi Public Platform",
     "author": "magicbowen <e.wangbo@gmail.com>",
     "license": "MIT",
