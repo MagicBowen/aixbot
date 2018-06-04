@@ -101,7 +101,7 @@ class AixBot {
                 return ctx.body;
             } catch(err) {
                 if (that.errorListener) {
-                    that.errorListener(ctx);
+                    that.errorListener(err, ctx);
                 } else {
                     console.log('Unhandled error occurred!')
                     throw err;
