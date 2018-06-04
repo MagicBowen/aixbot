@@ -67,6 +67,28 @@ describe('AixBot', function () {
             handlerEntered.should.be.exactly(false);
             errorHandled.should.be.exactly(true);
         });
+        it('should not care app id in request when not set app id for aixbot', async function () {
+            const aixbot = new AixBot();
+
+            let handlerEntered = false;
+            let errorHandled = false;
+
+            aixbot.onEvent('enterSkill', function(ctx) {
+                handlerEntered=true;
+            });
+
+            aixbot.onError((ctx) => {
+                errorHandled = true;
+            });
+
+            await aixbot.handleRequest({ session: {
+                                          application: {app_id: "1234"}, user: {user_id: "456"}}
+                                      , request: {type: 0}}
+                                      );
+
+            handlerEntered.should.be.exactly(true);
+            errorHandled.should.be.exactly(false);
+        });
         it('should not invoke enter skill event handler for quit skill request', async function () {
             const aixbot = new AixBot('12345');
 

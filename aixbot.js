@@ -3,7 +3,7 @@ const Context = require('./context')
 const Request = require('./request')
 
 class AixBot {
-    constructor(appId) {
+    constructor(appId = null) {
         this.appId = appId;
         this.middlewares = [];
         this.eventListeners = {
@@ -94,7 +94,7 @@ class AixBot {
         let that = this;
         return async function(ctx) {
             try {
-                if (ctx.request.appId != that.appId) {
+                if ((that.appId !== null)&&(ctx.request.appId != that.appId)) {
                     throw(new Error(`appId(${ctx.request.appId}) does not match the aibot(${that.appId})`));
                 }
                 await that.handle(ctx);
