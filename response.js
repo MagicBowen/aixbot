@@ -11,7 +11,19 @@ class Response {
 
     speak(text) {
         this._body.response['to_speak'] = { type : 0, text :text};
-        return this;
+        return this;        
+    }
+
+    reply(text) {
+        return this.speak(text);
+    }
+
+    query(text) {
+        return this.speak(text).openMic();
+    }
+
+    wait() {
+        return this.openMic(true);
     }
 
     audio(url) {
@@ -65,6 +77,7 @@ class Response {
 
     record() {
         this._body.response['action'] = 'leave_msg';
+        this.openMic();
         return this;
     }
 

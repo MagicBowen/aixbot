@@ -5,22 +5,22 @@ const aixbot = new AixBot('123');
 
 // define event listener
 aixbot.onEvent('enterSkill', (ctx) => {
-    ctx.speak('hi').openMic();
+    ctx.query('hi');
 });
 
 // define text listener
 aixbot.hears('who are you', (ctx) => {
-    ctx.speak('I am aixbot').openMic();
+    ctx.query('I am aixbot');
 });
 
 // define regex listener
 aixbot.hears(/\w+/, (ctx) => {
-    ctx.speak(ctx.request.query).openMic();
+    ctx.query(ctx.request.query);
 });
 
 // close session
 aixbot.onEvent('quitSkill', (ctx) => {
-    ctx.speak('bye').closeSession();
+    ctx.reply('bye').closeSession();
 });
 
 //////////////////////////////////////////////////

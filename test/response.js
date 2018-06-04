@@ -5,7 +5,7 @@ const Response = require('../Response')
 describe('Response', function () {
     describe('#getBody()', function () {
         it('should get the correct speak response', function () {
-            let response = new Response().speak('hello');
+            let response = new Response().reply('hello');
             let expect = {
                 version: "1.0",
                 is_session_end  : false,
@@ -46,14 +46,14 @@ describe('Response', function () {
                 version: "1.0",
                 is_session_end  : false,
                 response: {
-                    open_mic: false,
+                    open_mic: true,
                     action : "leave_msg"
                 }
             };
             equal(response.body, expect).should.be.exactly(true); 
         });        
         it('should get the correct open mic response', function () {
-            let response = new Response().speak('hello').openMic();
+            let response = new Response().query('hello');
             let expect = {
                 version: "1.0",
                 is_session_end  : false,
@@ -68,7 +68,7 @@ describe('Response', function () {
             equal(response.body, expect).should.be.exactly(true); 
         });        
         it('should get the correct close session response', function () {
-            let response = new Response().speak('hello').closeSession();
+            let response = new Response().reply('hello').closeSession();
             let expect = {
                 version: "1.0",
                 is_session_end  : true,

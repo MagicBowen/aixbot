@@ -39,7 +39,7 @@ describe('Context', function () {
     describe('#response()', function () {
         it('should get the response properties from context', function () {
             let context = new Context(null);
-            context.response.speak('hello');
+            context.response.reply('hello');
             expect = { version: '1.0',
                        response: { open_mic: false, to_speak: { type: 0, text: 'hello' } },
                        is_session_end: false 
@@ -48,7 +48,7 @@ describe('Context', function () {
         });
         it('should delegate the response methods from context', function () {
             let context = new Context(null);
-            context.speak('hello').openMic();
+            context.query('hello');
             expect = { version: '1.0',
                        response: { open_mic: true, to_speak: { type: 0, text: 'hello' } },
                        is_session_end: false 

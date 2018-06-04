@@ -49,9 +49,14 @@ describe('AixBot', function () {
             const aixbot = new AixBot('12345');
 
             let handlerEntered = false;
+            let errorHandled = false;
 
             aixbot.onEvent('enterSkill', function(ctx) {
                 handlerEntered=true;
+            });
+
+            aixbot.onError((ctx) => {
+                errorHandled = true;
             });
 
             await aixbot.handleRequest({ session: {
@@ -60,6 +65,7 @@ describe('AixBot', function () {
                                       );
 
             handlerEntered.should.be.exactly(false);
+            errorHandled.should.be.exactly(true);
         });
         it('should not invoke enter skill event handler for quit skill request', async function () {
             const aixbot = new AixBot('12345');

@@ -18,10 +18,11 @@ class Context {
 
 delegate(Context.prototype, 'res')
     .method('speak')
+    .method('reply')
+    .method('query')
     .method('audio')
     .method('appendTts')
     .method('display')
-    .method('openMic')
     .method('closeSession')
     .method('notUnderstand')
     .method('setSession')
