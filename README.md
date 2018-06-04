@@ -49,6 +49,17 @@ aixbot.onEvent('quitSkill', (ctx) => {
 aixbot.run(8080);
 ```
 
+### https
+
+```javascript
+let tlsOptions = {
+    key: fs.readFileSync('./keys/1522555444697.key'),
+    cert: fs.readFileSync('./keys/1522555444697.pem')
+};
+
+aixbot.run(8080, '0.0.0.0', tlsOptions);
+```
+
 ### with KOA
 
 ```javascript
