@@ -1,6 +1,7 @@
 const compose = require('koa-compose');
-const Context = require('./context')
-const Request = require('./request')
+const Context = require('./context');
+const Request = require('./request');
+const debug   = require('debug')('aixbot:Aixbot');
 
 class AixBot {
     constructor(appId = null) {
@@ -25,7 +26,7 @@ class AixBot {
         this.server = tlsOptions ? 
                       require('https').createServer(tlsOptions, this.callback()) 
                       : require('http').createServer(this.callback());
-        this.server.listen(port, host, () => { console.log('AiBot listening on port: %s', port)});
+        this.server.listen(port, host, () => { debug(`AiBot listening on port: ${port}`)});
     }
 
     use(middleware) {
@@ -103,7 +104,7 @@ class AixBot {
                 if (that.errorListener) {
                     that.errorListener(err, ctx);
                 } else {
-                    console.log('Unhandled error occurred!')
+                    debug('Unhandled error occurred!')
                     throw err;
                 }
             }
@@ -142,7 +143,7 @@ class AixBot {
             throw new Error(`ApiBot does not support event type of ${eventType}`);
         }
         if (this.eventListeners[eventType]) {
-            console.log(`Warning: override the existing handler of event type ${eventType}`);
+            debug(`Warning: override the existing handler of event type ${eventType}`);
         }
         this.verifyHandler(handler);
         this.eventListeners[eventType] = handler;
@@ -151,7 +152,7 @@ class AixBot {
     onIntent(intent, handler) {
         this.verifyHandler(handler);
         if (this.intentListeners.hasOwnProperty(intent)) {
-            console.log(`Warning: override the existing handler of intent ${intent}`);
+            debug(`Warning: override the existing handler of intent ${intent}`);
         }
         this.intentListeners[intent] = handler;
     }
@@ -176,14 +177,14 @@ class AixBot {
     onRegExp(regex, handler) {
         let regexStr = (new RegExp(regex)).source;
         if (this.regExpListeners.hasOwnProperty(regexStr)) {
-            console.log(`Warning: override the existing handler of regex ${regex}`);
+            debug(`Warning: override the existing handler of regex ${regex}`);
         }        
         this.regExpListeners[regexStr] = handler;
     }
     
     onText(text, handler) {
         if (this.textListeners.hasOwnProperty(text)) {
-            console.log(`Warning: override the existing handler of text ${text}`);
+            debug(`Warning: override the existing handler of text ${text}`);
         }        
         this.textListeners[text] = handler;
     }

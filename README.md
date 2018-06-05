@@ -14,7 +14,7 @@ npm install aixbot
 ```javascript
 const AixBot = require('aixbot');
 
-const aixbot = new AixBot('123');
+const aixbot = new AixBot();
 
 // define middleware
 aixbot.use(async (ctx, next) => {
@@ -25,25 +25,40 @@ aixbot.use(async (ctx, next) => {
     console.log(`... response in duration ${execTime}ms`);
 });
 
-// define event listener
+aixbot.use(async (ctx, next) => {
+    ctx.db = {
+        username : 'Bowen'
+    };
+    await next();
+});
+
+// define event handler
 aixbot.onEvent('enterSkill', (ctx) => {
-    ctx.query('hi');
+    ctx.query('你好');
 });
 
-// define text listener
-aixbot.hears('who are you', (ctx) => {
-    ctx.query('I am aixbot');
+// define text handler
+aixbot.hears('你是谁', (ctx) => {
+    ctx.speak(`我是${ctx.db.username}`).wait();
 });
 
-// define regex listener
-aixbot.hears(/\w+/, (ctx) => {
-    ctx.query(ctx.request.query);
+// define regex handler
+aixbot.hears(/\W+/, (ctx) => {
+    ctx.speak(ctx.request.query);
 });
 
 // close session
 aixbot.onEvent('quitSkill', (ctx) => {
-    ctx.reply('bye').closeSession();
+    ctx.reply('再见').closeSession();
 });
+
+
+// define error handler
+aixbot.onError((err, ctx) => {
+    logger.error(`error occurred: ${err}`);
+    ctx.reply('内部错误，稍后再试').closeSession();
+});
+
 
 // run http server
 aixbot.run(8080);
@@ -65,26 +80,40 @@ aixbot.run(8080, '0.0.0.0', tlsOptions);
 ```javascript
 const AixBot = require('aixbot');
 
-const aixbot = new AixBot('123');
+const aixbot = new AixBot();
 
-// define event listener
+// define axibot middleware
+aixbot.use(async (ctx, next) => {
+    ctx.db = {
+        username : 'Bowen'
+    };
+    await next();
+});
+
+// define event handler
 aixbot.onEvent('enterSkill', (ctx) => {
-    ctx.query('hi');
+    ctx.query('你好');
 });
 
-// define text listener
-aixbot.hears('who are you', (ctx) => {
-    ctx.query('I am aixbot');
+// define text handler
+aixbot.hears('你是谁', (ctx) => {
+    ctx.speak(`我是${ctx.db.username}`).wait();
 });
 
-// define regex listener
-aixbot.hears(/\w+/, (ctx) => {
-    ctx.query(ctx.request.query);
+// define regex handler
+aixbot.hears(/\W+/, (ctx) => {
+    ctx.speak(ctx.request.query);
 });
 
 // close session
 aixbot.onEvent('quitSkill', (ctx) => {
-    ctx.reply('bye').closeSession();
+    ctx.reply('再见').closeSession();
+});
+
+// define error handler
+aixbot.onError((err, ctx) => {
+    logger.error(`error occurred: ${err}`);
+    ctx.reply('内部错误，稍后再试').closeSession();
 });
 
 const Koa = require('koa');
@@ -95,6 +124,14 @@ const router = new Router();
 const app = new Koa();
 
 // koa middleware
+app.use(async (ctx, next) => {
+    console.log(`process request for '${ctx.request.url}' ...`);
+    var start = new Date().getTime();
+    await next();
+    var execTime = new Date().getTime() - start;
+    console.log(`... response in duration ${execTime}ms`);
+});
+
 app.use(koaBody());
 router.get('/', (ctx, next) => {
     ctx.response.body = 'welcome';

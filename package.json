@@ -18,8 +18,9 @@
     },
     "bugs": {
         "url": "https://github.com/MagicBowen/aixbot/issues"
-    },    
+    },
     "dependencies": {
+        "debug": "^3.1.0",
         "delegates": "^1.0.0",
         "koa-compose": "^4.1.0"
     },
@@ -36,5 +37,5 @@
         "bot",
         "botapi",
         "bot framework"
-      ]    
+    ]
 }
