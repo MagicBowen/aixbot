@@ -285,17 +285,18 @@ Registers event handler.
 | recordFail | 录音失败 |
 | playFinishing | 录音播放即将完成 |
 
-注意：`inSkill`事件的处理优先级是最低的，比随后介绍的`onIntent`和`hears`更低。可以用它来做一些默认处理。
 
 ```js
 aixbot.onEvent('enterSkill', (ctx) => {
-    ctx.query('你好');
+    ctx.speak('你好').wait();
 });
 
-aixbot.onEvent('quitSkill', (ctx) => {
-    ctx.reply('再见').closeSession();
+aixbot.onEvent('inSkill', (ctx) => {
+    console.log(`received : ${ctx.request.query}`);
 });
 ```
+
+注意：`inSkill`事件的处理优先级是最低的，比随后介绍的`onIntent`和`hears`更低。可以用它来做一些默认处理。
 
 ##### onIntent
 
@@ -624,7 +625,7 @@ Reply to play record msgs.
 
 ##### registerPlayFinishing
 
-指示播放录音即将完成后发送回调消息，具体参加[小爱文档](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/EventsAndTheme)
+指示播放录音即将完成后发送回调消息，具体参见[小爱相关文档](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/EventsAndTheme)
 
 `ctx.response.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x']).registerPlayFinishing();`
 
@@ -681,7 +682,7 @@ ctx.speak('hi').wait(); // same as : ctx.response.speak('hi').wait()
 
 如果运行时想打开AixBot的debug打印，可以在启动时加上 `DEBUG=aixbot:*`，例如`DEBUG=aixbot:* node index.js`。
 
-本人使用的是 `node 8.11.1`版本，其它更低版本的不支持`class`,`const`,`let`,`async`,`await`等特性的node请绕路。
+本人使用的是 `node 8.11.1`版本，其它更低版本的不支持`class`,`const`,`let`,`async`,`await`等特性的node版本请绕路。
 
 ## 作者
 
