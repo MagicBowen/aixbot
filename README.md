@@ -669,8 +669,9 @@ ctx.speak('hi').wait(); // same as : ctx.response.speak('hi').wait()
 
 使用 `npm test`可以对源码进行测试。
 
-本人使用的是 `node 8.11.1`版本，其它更低版本的不支持`class`,`const`,`let`,`async`,`await`等特性的node请绕路。
+如果运行时想打开AicBot的debug打印，可以在启动时加上 `DEBUG=aixbot:*`，例如`DEBUG=aixbot:* node index.js`。
 
+本人使用的是 `node 8.11.1`版本，其它更低版本的不支持`class`,`const`,`let`,`async`,`await`等特性的node请绕路。
 
 ## 作者
 
