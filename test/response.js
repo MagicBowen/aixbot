@@ -20,7 +20,7 @@ describe('Response', function () {
             equal(response.body, expect).should.be.exactly(true); 
         });
         it('should get the correct audio response', function () {
-            let response = new Response().audio('http://www.xx.cn/audio.mp3');
+            let response = new Response().directiveAudio('http://www.xx.cn/audio.mp3');
             let expect = {
                 version: "1.0",
                 is_session_end  : false,
