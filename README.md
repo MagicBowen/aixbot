@@ -503,6 +503,18 @@ Request对接收消息体进行了封装，对常用字段提供了直接的读�
 | isRecordFail | `boolean` | message.request.event_type == 'leavemsg.failed'|
 | isPlayFinishing | `boolean` | message.request.event_type == 'mediaplayer.playbacknearlyfinished'|
 
+
+```js
+aixbot.hears(/\W+/, (ctx) => {
+    console.log(ctx.request.appId);
+    console.log(ctx.request.query);
+    if (ctx.request.isNoResponse) {
+        console.log('received no response');
+    }
+    // ...
+})
+```
+
 #### Response
 
 Response API reference.
@@ -608,15 +620,13 @@ Reply to play record msgs.
 | --- | --- | --- |
 | fileIdList | `Array` | file_id array |
 
-```js
-ctx.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x']);
-```
+`ctx.response.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x'])`
 
 ##### registerPlayFinishing
 
 指示播放录音即将完成后发送回调消息，具体参加[小爱文档](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/EventsAndTheme)
 
-`ctx.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x']).registerPlayFinishing();`
+`ctx.response.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x']).registerPlayFinishing();`
 
 ##### record
 
@@ -669,7 +679,7 @@ ctx.speak('hi').wait(); // same as : ctx.response.speak('hi').wait()
 
 使用 `npm test`可以对源码进行测试。
 
-如果运行时想打开AicBot的debug打印，可以在启动时加上 `DEBUG=aixbot:*`，例如`DEBUG=aixbot:* node index.js`。
+如果运行时想打开AixBot的debug打印，可以在启动时加上 `DEBUG=aixbot:*`，例如`DEBUG=aixbot:* node index.js`。
 
 本人使用的是 `node 8.11.1`版本，其它更低版本的不支持`class`,`const`,`let`,`async`,`await`等特性的node请绕路。
 
