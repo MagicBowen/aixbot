@@ -118,8 +118,8 @@ class AixBot {
         if (await this.doHandle(ctx, this.eventListeners.recordFinish, ctx.request.isRecordFinish)) return;
         if (await this.doHandle(ctx, this.eventListeners.recordFail, ctx.request.isRecordFail)) return;
         if (await this.doHandle(ctx, this.eventListeners.playFinishing, ctx.request.isPlayFinishing)) return;
-        if (await this.doHandle(ctx, this.intentListeners[ctx.request.intent], () => {
-            return this.intentListeners.hasOwnProperty(ctx.request.intent);
+        if (await this.doHandle(ctx, this.intentListeners[ctx.request.intentName], () => {
+            return this.intentListeners.hasOwnProperty(ctx.request.intentName);
         })) return;
         if (await this.doHandle(ctx, this.textListeners[ctx.request.query], () => {
             return this.textListeners.hasOwnProperty(ctx.request.query);
