@@ -170,7 +170,7 @@ class AixBot {
             this.onText(text, handler);
         }
         else {
-            throw new Error(`ApiBot just support hearing String or RegExp!`);
+            throw new Error(`ApiBot only support hearing String or RegExp!`);
         }
     }
 
