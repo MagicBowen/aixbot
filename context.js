@@ -20,15 +20,11 @@ delegate(Context.prototype, 'res')
     .method('speak')
     .method('reply')
     .method('query')
-    .method('audio')
-    .method('appendTts')
+    .method('directiveAudio')
+    .method('directiveTts')
+    .method('directiveRecord')
     .method('display')
-    .method('closeSession')
-    .method('notUnderstand')
-    .method('setSession')
-    .method('record')
     .method('playMsgs')
-    .method('registerPlayFinishing')
     .getter('body');
 
 module.exports = Context;

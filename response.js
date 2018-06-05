@@ -26,26 +26,30 @@ class Response {
         return this.openMic(true);
     }
 
-    audio(url) {
-        let item = { type: 'audio', audio_item : { stream: { url : url }}};
+    directiveAudio(url, token, offsetMs) {
+        let item = { type: 'audio', audio_item : {stream: { url : url}}};
 
-        if (!this._body.response.hasOwnProperty('directives')) {
-            this._body.response['directives'] = [item];
-            return this;
-        }
-        this._body.response.directives.push(item);
-        return this;
+        if (token) item.audio_item.stream['token'] = token;
+        if (offsetMs) item.audio_item.stream['offset_in_milliseconds'] = offsetMs;
+
+        return this.appendToDirectives(item);
     }
     
-    appendTts(text) {
-        let item = { type : 'tts', tts_item : { type : 'text', text : text}};
+    directiveTts(text) {
+        return this.appendToDirectives({type : 'tts', tts_item : { type : 'text', text : text}});
+    }
+    
+    directiveRecord(fileId) {
+        return this.appendToDirectives({type : 'file_id', file_id_item : {file_id : fileId}});
+    }
 
+    appendToDirectives(item) {
         if (!this._body.response.hasOwnProperty('directives')) {
             this._body.response['directives'] = [item];
             return this;
         }
         this._body.response.directives.push(item);
-        return this;
+        return this;        
     }
 
     display(type, url, text, template) {
