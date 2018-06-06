@@ -296,7 +296,7 @@ aixbot.onEvent('inSkill', (ctx) => {
 });
 ```
 
-注意：`inSkill`事件的处理优先级是最低的，比随后介绍的`onIntent`和`hears`更低。可以用它来做一些默认处理。
+** 注意：`inSkill`事件的处理优先级是最低的，比随后介绍的`onIntent`、`onText`和`onRegExp`都要低。可以用它来做一些默认处理。**
 
 #### onIntent
 
@@ -349,7 +349,7 @@ aixbot.onRegExp(/\d+/, (ctx) => {
 });
 ```
 
-注意：所有`regex handler`的优先级低于`text handler`。
+** 注意：所有`regex handler`的优先级低于`text handler` **。
 
 #### hears
 
