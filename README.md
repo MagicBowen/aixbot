@@ -216,7 +216,7 @@ aixbot.onIntent('query-weather', (ctx) => {
 });
 ```
 
-如果需要完成更复杂的NLU处理，可以将AixBot对接其它更专业的NLU处理平台。遗憾的是[DialogFlow](https://dialogflow.com/)、[wit.ai](https://wit.ai/)目前都在墙外，微软的[LUIS](https://www.luis.ai/home)当前还可以用。国内类似的开放平台也有，基本和小爱当前的NLU能力差不多。作为一名程序员，说实话我不是很喜欢这种通过网页配置的方式来构建对话，我更喜欢以代码的形式来定义和处理，这样可以更加灵活地完成复杂功能。如果你自己有NLU处理能力，那就会很方便了。
+如果需要完成更复杂的NLU处理，可以将AixBot对接其它更专业的NLU处理平台。遗憾的是[DialogFlow](https://dialogflow.com/)、[wit.ai](https://wit.ai/)目前都在墙外，微软的[LUIS](https://www.luis.ai/home)当前还可以用。国内类似的开放平台也有，基本和小爱当前的NLU能力差不多。作为一名程序员，说实话我不是很喜欢这种通过网页配置的方式来构建对话，我更喜欢经过良好封装的能够以代码的形式来定义和处理对话的chatbot引擎库，这样可以更加灵活地完成复杂功能。如果你自己有类似的NLU处理能力，那就会很方便了。
 
 AixBot和非小爱的NLU平台对接，无非是在AixBot的回调里面将小爱发来消息里的对话内容转发到对应的NLU平台，然后根据NLU平台的返回结果构造给小爱的回复。这里和具体的NLU平台相关，就不再详述了。
 
@@ -658,7 +658,7 @@ console.log(JSON.stringify(ctx.response.body));
 
 #### Other
 
-Context对Response的如下主要的属性和方法进行了代理，方便使用。
+为了方便使用，Context对Response的下列属性和方法进行了代理：
 
 - `speak`
 - `reply`
