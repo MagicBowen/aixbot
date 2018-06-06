@@ -222,7 +222,7 @@ AixBot和非小爱的NLU平台对接，无非是在AixBot的回调里面将小�
 
 ## API
 
-#### AixBot
+### AixBot
 
 AixBot API reference
 
@@ -230,7 +230,7 @@ AixBot API reference
 const AixBot = require('aixbot')
 ```
 
-##### Constructor
+#### Constructor
 
 Initialize new AixBot bot.
 
@@ -243,7 +243,7 @@ Initialize new AixBot bot.
 在小爱开放平台上申请的每一个技能都有一个`app_id`。
 如果需要对收到的每条消息的`app_id`进行严格校验，则在构造AixBot的实例时提供该值。
 
-##### use
+#### use
 
 Registers a middleware.
 
@@ -262,7 +262,7 @@ aixbot.use(async (ctx, next) => {
 });
 ```
 
-##### onEvent
+#### onEvent
 
 Registers event handler.
 
@@ -298,7 +298,7 @@ aixbot.onEvent('inSkill', (ctx) => {
 
 注意：`inSkill`事件的处理优先级是最低的，比随后介绍的`onIntent`和`hears`更低。可以用它来做一些默认处理。
 
-##### onIntent
+#### onIntent
 
 Registers intent handler.
 
@@ -315,7 +315,7 @@ aixbot.onIntent('query-weather', (ctx) => {
 });
 ```
 
-##### onText
+#### onText
 
 Registers text handler.
 
@@ -332,7 +332,7 @@ aixbot.onText('hi', (ctx) => {
 });
 ```
 
-##### onRegExp
+#### onRegExp
 
 Registers regex handler.
 
@@ -351,7 +351,7 @@ aixbot.onRegExp(/\d+/, (ctx) => {
 
 注意：所有`regex handler`的优先级低于`text handler`。
 
-##### hears
+#### hears
 
 Wrapper of onText and onRegExp.
 
@@ -372,7 +372,7 @@ aixbot.hears(/\W+/, (ctx) => {
 });
 ```
 
-##### onError
+#### onError
 
 Registers error handler.
 
@@ -389,7 +389,7 @@ aixbot.onError((err, ctx) => {
 });
 ```
 
-##### run
+#### run
 
 Run http/https server.
 
@@ -412,7 +412,7 @@ let tlsOptions = {
 aixbot.run(8080, '0.0.0.0', tlsOptions);
 ```
 
-##### httpHandler
+#### httpHandler
 
 get middleware for KOA.
 
@@ -427,7 +427,7 @@ app.use(router.routes());
 app.listen(8080);
 ```
 
-#### Context
+### Context
 
 Context API reference.
 
@@ -474,7 +474,7 @@ aixbot.hears('你是谁', (ctx) => {
 });
 ```
 
-#### Request
+### Request
 
 Request API reference.
 
@@ -516,7 +516,7 @@ aixbot.hears(/\W+/, (ctx) => {
 })
 ```
 
-#### Response
+### Response
 
 Response API reference.
 
@@ -524,7 +524,7 @@ Response封装了发送给小爱的消息，通过`ctx.response`可以获取到R
 
 Response对发送消息体进行了封装，提供了更具有语义性的操作接口。
 
-##### speak
+#### speak
 
 Reply a text.
 
@@ -536,7 +536,7 @@ Reply a text.
 
 speak默认是关闭麦克风的，如果想要打开麦克风则需要和后面的`wait`接口一起使用。
 
-##### wait
+#### wait
 
 Open mic.
 
@@ -544,15 +544,15 @@ Open mic.
 
 `wait`接口不能单独使用，必须跟在其它有内容回复的接口后面。
 
-##### query
+#### query
 
 `response.speak(text).wait()`的语法糖，可以直接写 `response.query(text)`
 
-##### reply
+#### reply
 
 与`response.speak(text)`等价，可以直接写 `response.reply(text)`
 
-##### directiveAudio
+#### directiveAudio
 
 Reply a audio directive.
 
@@ -564,7 +564,7 @@ Reply a audio directive.
 | token | `String` | 获取资源的token |
 | offsetMs | `Long` | 偏移时间 |
 
-##### directiveTts
+#### directiveTts
 
 Reply a tts directive.
 
@@ -574,7 +574,7 @@ Reply a tts directive.
 | --- | --- | --- |
 | text | `String` | 语音合成文本 |
 
-##### directiveRecord
+#### directiveRecord
 
 Reply a record directive.
 
@@ -584,7 +584,7 @@ Reply a record directive.
 | --- | --- | --- |
 | fileId | `String` | 录音文件ID |
 
-##### display
+#### display
 
 Reply a display.
 
@@ -597,7 +597,7 @@ Reply a display.
 | text | `String` | display text |
 | template | `UlTemplate` | 参见 [UlTemplate](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/CustomSkills) |
 
-##### setSession
+#### setSession
 
 Add paramter in session.
 
@@ -609,7 +609,7 @@ Add paramter in session.
 | --- | --- | --- |
 | obj | `Any` | parameter store in session |
 
-##### playMsgs
+#### playMsgs
 
 Reply to play record msgs.
 
@@ -623,31 +623,31 @@ Reply to play record msgs.
 
 `ctx.response.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x'])`
 
-##### registerPlayFinishing
+#### registerPlayFinishing
 
 指示播放录音即将完成后发送回调消息，具体参见[小爱相关文档](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/EventsAndTheme)
 
 `ctx.response.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x']).registerPlayFinishing();`
 
-##### record
+#### record
 
 指示开始录音，跟在回复后面使用。
 
 `ctx.response.speak('start record').record()`
 
-##### closeSession
+#### closeSession
 
 指示结束回话，跟在回复后面使用。
 
 `ctx.response.speak('bye').closeSession()`
 
-##### notUnderstand
+#### notUnderstand
 
 指示未理解的对话，跟在回复后面使用。
 
 `ctx.response.speak('what').notUnderstand()`
 
-##### body
+#### body
 
 获取消息体内容
 
@@ -656,7 +656,7 @@ ctx.response.speak('hello');
 console.log(JSON.stringify(ctx.response.body));
 ```
 
-#### Other
+#### context delegates
 
 为了方便使用，Context对Response的下列属性和方法进行了代理：
 
