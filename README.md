@@ -451,7 +451,7 @@ aixbot.onEvent('enterSkill', (ctx) => {
 });
 ```
 
-由于Response的方法直接连贯接口调用，所以Context上代理的Response接口一样。
+由于Response支持连贯接口调用，所以Context上代理的Response接口也同样支持。
 
 ```js
 aixbot.hears('你是谁', (ctx) => {
