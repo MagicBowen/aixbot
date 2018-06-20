@@ -455,7 +455,7 @@ aixbot.onEvent('enterSkill', (ctx) => {
 
 ```js
 aixbot.hears('你是谁', (ctx) => {
-    ctx.speak('我是Bowen，你是谁？').wait(); // wait()指示开启麦克风，用于直接的对轮对话
+    ctx.speak('我是Bowen，你是谁？').wait(); // wait()指示开启麦克风，用于直接的多轮对话
 });
 ```
 
