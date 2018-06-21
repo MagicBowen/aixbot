@@ -96,6 +96,21 @@ class Response {
         return this;
     }
 
+    launchQuickApp(path) {
+        this._body.response['action'] = 'App.LaunchQuickApp';
+        this._body.response['action_property'] = {quick_app_path : path};
+        return this;        
+    }
+
+    launchApp(type, uri, permission) {
+        // type should be : [activity|service|broadcast]
+        this._body.response['action'] = 'App.LaunchIntent';
+        var info = {intent_type : type, uri : uri};
+        if (permission) info.permission = permission;
+        this._body.response['action_property'] = {app_intent_info : info};
+        return this;        
+    }
+
     get body() {
         return this._body;
     }

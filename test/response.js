@@ -101,5 +101,33 @@ describe('Response', function () {
             }                             
             equal(expect, actual).should.be.exactly(true); 
         });
+        it('should get the correct launch quick app response', function () {
+            let response = new Response().launchQuickApp('/');
+            let actual = response.body;
+            let expect = {
+                version: "1.0",
+                is_session_end  : false,
+                response: {
+                    open_mic: false,
+                    action : "App.LaunchQuickApp",
+                    action_property : {quick_app_path : '/'}
+                }
+            }                             
+            equal(expect, actual).should.be.exactly(true); 
+        });
+        it('should get the correct launch app response', function () {
+            let response = new Response().launchApp('activity', 'xxx');
+            let actual = response.body;
+            let expect = {
+                version: "1.0",
+                is_session_end  : false,
+                response: {
+                    open_mic: false,
+                    action : "App.LaunchIntent",
+                    action_property : {app_intent_info : {intent_type : 'activity', uri : 'xxx'}}
+                }
+            }                             
+            equal(expect, actual).should.be.exactly(true); 
+        });
     });
 });    

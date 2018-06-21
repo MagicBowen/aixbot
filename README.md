@@ -629,6 +629,34 @@ Reply to play record msgs.
 
 `ctx.response.speak('请收听录音').playMsgs(['4747c167f000400f15f4d42x']).registerPlayFinishing();`
 
+#### launchQuickApp
+
+启动特定路径的快应用。
+快应用语音技能的注册及配置见[小爱文档](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/VoiceAssistantSkill)。
+
+`launchQuickApp(path)`
+
+| Param | Type | Description |
+| --- | --- | --- |
+| path | `String` | path of quick app |
+
+`ctx.response.launchQuickApp('/')`
+
+#### launchApp
+
+启动APP。
+启动APP的语音技能的注册及配置见[小爱文档](https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/VoiceAssistantSkill)。
+
+`launchApp(type, uri, permission)`
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | `String` | 启动APP的intent的类型；支持的类型 1 activity； 2 service； 3 broadcast |
+| uri | `String` | 启动APP的路径 |
+| permission | `String` | 权限信息；非必须参数 |
+
+`ctx.response.launchApp('activity', 'xxxxxxx')`
+
 #### record
 
 指示开始录音，跟在回复后面使用。
@@ -668,6 +696,8 @@ console.log(JSON.stringify(ctx.response.body));
 - `directiveRecord`
 - `display`
 - `playMsgs`
+- `launchQuickApp`
+- `launchApp`
 - `body`
 
 ```js

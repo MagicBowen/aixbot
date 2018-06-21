@@ -25,6 +25,8 @@ delegate(Context.prototype, 'res')
     .method('directiveRecord')
     .method('display')
     .method('playMsgs')
+    .method('launchQuickApp')
+    .method('launchApp')
     .getter('body');
 
 module.exports = Context;
