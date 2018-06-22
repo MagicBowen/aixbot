@@ -105,7 +105,7 @@ class Response {
     launchApp(type, uri, permission) {
         // type should be : [activity|service|broadcast]
         this._body.response['action'] = 'App.LaunchIntent';
-        var info = {intent_type : type, uri : uri};
+        let info = {intent_type : type, uri : uri};
         if (permission) info.permission = permission;
         this._body.response['action_property'] = {app_intent_info : info};
         return this;        
