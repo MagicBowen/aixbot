@@ -26,7 +26,7 @@ class AixBot {
         this.server = tlsOptions ? 
                       require('https').createServer(tlsOptions, this.callback()) 
                       : require('http').createServer(this.callback());
-        this.server.listen(port, host, () => { debug(`AiBot listening on port: ${port}`)});
+        this.server.listen(port, host, () => { debug(`AixBot listening on port: ${port}`)});
     }
 
     use(middleware) {
@@ -37,7 +37,7 @@ class AixBot {
 
     callback() {
         this.middlewares.push(this.getFinalHandler());
-        const aibotHandlers = compose(this.middlewares);
+        const aixbotHandlers = compose(this.middlewares);
 
         const responseJson = (res, data, statusCode = 200) => {
             const body = JSON.stringify(data);
@@ -58,7 +58,7 @@ class AixBot {
             });
             req.on('end', async function() {
                 try {
-                    let resBody = await that.handleRequest(JSON.parse(reqBody), aibotHandlers);
+                    let resBody = await that.handleRequest(JSON.parse(reqBody), aixbotHandlers);
                     responseJson(res, resBody);
                 } catch (err) {
                     responseJson(res, {cause : `${err}`}, 404);
@@ -69,11 +69,11 @@ class AixBot {
 
     httpHandler() {
         this.middlewares.push(this.getFinalHandler());
-        const aibotHandlers = compose(this.middlewares);
+        const aixbotHandlers = compose(this.middlewares);
         let that = this;
         return async (ctx, next) => {
             try {
-                ctx.response.body = await that.handleRequest(ctx.request.body, aibotHandlers);
+                ctx.response.body = await that.handleRequest(ctx.request.body, aixbotHandlers);
                 ctx.response.status = 200;
             } catch(err) {
                 ctx.response.status = 404;
@@ -96,7 +96,7 @@ class AixBot {
         return async function(ctx) {
             try {
                 if ((that.appId !== null)&&(ctx.request.appId != that.appId)) {
-                    throw(new Error(`appId(${ctx.request.appId}) does not match the aibot(${that.appId})`));
+                    throw(new Error(`appId(${ctx.request.appId}) does not match the aixbot(${that.appId})`));
                 }
                 await that.handle(ctx);
                 return ctx.body;
