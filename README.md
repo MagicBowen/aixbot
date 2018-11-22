@@ -1,14 +1,15 @@
 # 小爱开放平台语音技能SDK
 
 <!-- TOC -->
-- [小爱开放平台语音技能SDK](#%E5%B0%8F%E7%88%B1%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0%E8%AF%AD%E9%9F%B3%E6%8A%80%E8%83%BDsdk)
-    - [安装](#%E5%AE%89%E8%A3%85)
-    - [用法](#%E7%94%A8%E6%B3%95)
-        - [快速启动](#%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8)
-        - [HTTPS启动](#https%E5%90%AF%E5%8A%A8)
-        - [定义中间件](#%E5%AE%9A%E4%B9%89%E4%B8%AD%E9%97%B4%E4%BB%B6)
-        - [和KOA结合使用](#%E5%92%8Ckoa%E7%BB%93%E5%90%88%E4%BD%BF%E7%94%A8)
-        - [对接NLU平台](#%E5%AF%B9%E6%8E%A5nlu%E5%B9%B3%E5%8F%B0)
+
+- [小爱开放平台语音技能SDK](#小爱开放平台语音技能sdk)
+    - [安装](#安装)
+    - [用法](#用法)
+        - [快速启动](#快速启动)
+        - [HTTPS启动](#https启动)
+        - [定义中间件](#定义中间件)
+        - [和KOA结合使用](#和koa结合使用)
+        - [对接NLU平台](#对接nlu平台)
     - [API](#api)
         - [AixBot](#aixbot)
             - [Constructor](#constructor)
@@ -42,9 +43,12 @@
             - [notUnderstand](#notunderstand)
             - [body](#body)
             - [context delegates](#context-delegates)
-    - [其它](#%E5%85%B6%E5%AE%83)
-    - [作者](#%E4%BD%9C%E8%80%85)
-<!-- /TOC -->
+    - [其它](#其它)
+    - [作者](#作者)
+    
+    <!-- /TOC -->
+
+---
 
 [小爱开放平台语音技能](https://xiaoai.mi.com/skill/create/index)的非官方nodejs SDK，帮助你轻松对接小爱开放平台，快速构建起属于自己的语音技能。
 
