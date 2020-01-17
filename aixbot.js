@@ -1,32 +1,32 @@
 const compose = require('koa-compose');
 const Context = require('./context');
 const Request = require('./request');
-const debug   = require('debug')('aixbot:Aixbot');
+const debug = require('debug')('aixbot:Aixbot');
 
 class AixBot {
     constructor(appId = null) {
         this.appId = appId;
         this.middlewares = [];
         this.eventListeners = {
-            enterSkill    : null,
-            quitSkill     : null,
-            inSkill       : null,
-            noResponse    : null,
-            recordFinish  : null,
-            recordFail    : null,
-            playFinishing : null
+            enterSkill: null,
+            quitSkill: null,
+            inSkill: null,
+            noResponse: null,
+            recordFinish: null,
+            recordFail: null,
+            playFinishing: null
         };
         this.intentListeners = {};
-        this.textListeners   = {};
+        this.textListeners = {};
         this.regExpListeners = {};
-        this.errorListener   = null;
+        this.errorListener = null;
     }
 
     run(port, host, tlsOptions) {
-        this.server = tlsOptions ? 
-                      require('https').createServer(tlsOptions, this.callback()) 
-                      : require('http').createServer(this.callback());
-        this.server.listen(port, host, () => { debug(`AixBot listening on port: ${port}`)});
+        this.server = tlsOptions ?
+            require('https').createServer(tlsOptions, this.callback())
+            : require('http').createServer(this.callback());
+        this.server.listen(port, host, () => { debug(`AixBot listening on port: ${port}`) });
     }
 
     use(middleware) {
@@ -43,25 +43,26 @@ class AixBot {
             const body = JSON.stringify(data);
             res.writeHead(statusCode, {
                 'Content-Length': Buffer.byteLength(body),
-                'Content-Type': 'application/json' });
+                'Content-Type': 'application/json'
+            });
             res.end(body);
         }
         let that = this;
         return (req, res) => {
             if (req.headers['content-type'] !== 'application/json') {
-                responseJson(res, {cause : 'incorrect content type, wish json!'}, 404);
+                responseJson(res, { cause: 'incorrect content type, wish json!' }, 404);
                 return;
             }
             let reqBody = "";
-            req.on('data', function(chunk) {
+            req.on('data', function (chunk) {
                 reqBody += chunk;
             });
-            req.on('end', async function() {
+            req.on('end', async function () {
                 try {
                     let resBody = await that.handleRequest(JSON.parse(reqBody), aixbotHandlers);
                     responseJson(res, resBody);
                 } catch (err) {
-                    responseJson(res, {cause : `${err}`}, 404);
+                    responseJson(res, { cause: `${err}` }, 404);
                 }
             });
         };
@@ -75,9 +76,24 @@ class AixBot {
             try {
                 ctx.response.body = await that.handleRequest(ctx.request.body, aixbotHandlers);
                 ctx.response.status = 200;
-            } catch(err) {
+            } catch (err) {
                 ctx.response.status = 404;
-                ctx.response.body = {cause : `${err}`};
+                ctx.response.body = { cause: `${err}` };
+            }
+            next();
+        }
+    }
+
+    expressHttpHandler() {
+        this.middlewares.push(this.getFinalHandler());
+        const aixbotHandlers = compose(this.middlewares);
+        let that = this;
+        return async (req, res, next) => {
+            try {
+                let replay = await that.handleRequest(req.body, aixbotHandlers);
+                res.status(200).json(replay);
+            } catch (err) {
+                res.status(404)
             }
             next();
         }
@@ -89,18 +105,18 @@ class AixBot {
         let ctx = new Context(req);
         await handler(ctx);
         return ctx.body;
-    }  
-    
+    }
+
     getFinalHandler() {
         let that = this;
-        return async function(ctx) {
+        return async function (ctx) {
             try {
-                if ((that.appId !== null)&&(ctx.request.appId != that.appId)) {
-                    throw(new Error(`appId(${ctx.request.appId}) does not match the aixbot(${that.appId})`));
+                if ((that.appId !== null) && (ctx.request.appId != that.appId)) {
+                    throw (new Error(`appId(${ctx.request.appId}) does not match the aixbot(${that.appId})`));
                 }
                 await that.handle(ctx);
                 return ctx.body;
-            } catch(err) {
+            } catch (err) {
                 if (that.errorListener) {
                     that.errorListener(err, ctx);
                 } else {
@@ -109,7 +125,7 @@ class AixBot {
                 }
             }
         }
-    }    
+    }
 
     async handle(ctx) {
         if (await this.doHandle(ctx, this.eventListeners.enterSkill, ctx.request.isEnterSkill)) return;
@@ -130,7 +146,7 @@ class AixBot {
 
     async doHandle(ctx, handler, trigger) {
         if (!handler) return false;
-        if ((trigger != undefined)&&(trigger != null)) {
+        if ((trigger != undefined) && (trigger != null)) {
             if ((typeof trigger === 'boolean') && !trigger) return false;
             if ((typeof trigger === 'function') && !trigger()) return false;
         }
@@ -166,7 +182,7 @@ class AixBot {
         this.verifyHandler(handler);
         if (text instanceof RegExp) {
             this.onRegExp(text, handler);
-        } else if(typeof text === 'string') {
+        } else if (typeof text === 'string') {
             this.onText(text, handler);
         }
         else {
@@ -178,14 +194,14 @@ class AixBot {
         let regexStr = (new RegExp(regex)).source;
         if (this.regExpListeners.hasOwnProperty(regexStr)) {
             debug(`Warning: override the existing handler of regex ${regex}`);
-        }        
+        }
         this.regExpListeners[regexStr] = handler;
     }
-    
+
     onText(text, handler) {
         if (this.textListeners.hasOwnProperty(text)) {
             debug(`Warning: override the existing handler of text ${text}`);
-        }        
+        }
         this.textListeners[text] = handler;
     }
 
@@ -195,15 +211,15 @@ class AixBot {
         }
         if (typeof handler != 'function') {
             throw new TypeError(`Event handler must be a function`);
-        }        
+        }
     }
 
     getRegExpHandler(query) {
         for (let regexStr in this.regExpListeners) {
-            if(RegExp(regexStr).test(query)) return this.regExpListeners[regexStr];
+            if (RegExp(regexStr).test(query)) return this.regExpListeners[regexStr];
         }
         return null;
-    }    
+    }
 }
 
 module.exports = AixBot;
