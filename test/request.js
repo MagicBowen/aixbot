@@ -1,5 +1,5 @@
 const should = require('should');
-const Request = require('../Request')
+const Request = require('../request')
 
 describe('Request', function () {
     describe('#getAttributes()', function () {

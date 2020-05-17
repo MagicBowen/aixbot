@@ -1,6 +1,6 @@
 const should = require('should');
 const equal = require('deep-equal');
-const Response = require('../Response')
+const Response = require('../response')
 
 describe('Response', function () {
     describe('#getBody()', function () {
