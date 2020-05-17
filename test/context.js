@@ -1,6 +1,6 @@
 const should = require('should');
 const equal = require('deep-equal');
-const Request = require('../Request')
+const Request = require('../request')
 const Context = require('../context')
 
 describe('Context', function () {
